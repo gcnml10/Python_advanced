@@ -61,3 +61,81 @@ print()
 
 # Callable : 호출 연산자 -> 메소드 형태로 호출 가능한지 확인
 
+import random
+# 로또 추첨 클래스 선언
+class LottoGame:
+    def __init__(self):
+        self._balls = [n for n in range(1,46)]
+
+    def pick(self):
+        random.shuffle(self._balls)
+        return sorted(random.choice(self._balls) for n in range(6))
+
+    def __call__(self):
+        return self.pick()
+
+# 객체 생성
+game = LottoGame()
+
+#게임 실행
+#호출 가능 확인
+
+print('EX4-1 -', callable(str), callable(list), callable(factorial), callable(3.14), callable(game))
+print('EX4-1 -', game.pick())
+print('EX4-3 -', game())
+print('EX4-4 -', callable(game))
+
+print()
+print()
+
+#다양한 매개변수 입력(*args, **kwargs)
+def args_test(name, *contents, point=None, **attrs):
+    return '<agrs_test> -> ({}) ({}) ({}) ({})'.format(name, contents, point, attrs)
+
+print('EX5-1 -', args_test('test1'))
+print('EX5-1 -', args_test('test1','test2'))
+print('EX5-1 -', args_test('test1','test2','test3', id='admin'))
+print('EX5-1 -', args_test('test1','test2','test3', id='admin', point=7))
+print('EX5-1 -', args_test('test1','test2','test3', id='admin', point=7, password='1234'))
+
+print()
+print()
+
+# 함수 Gignatures
+
+from inspect import signature
+
+sg = signature(args_test)
+
+print('EX6-1 ', sg)
+print('EX6-1 ', sg.parameters)
+
+print()
+
+
+#모든 정보 출력
+
+for name, param in sg.parameters.items():
+    print('EX6-3 -', name, param.kind, param.default)
+
+print()
+print()
+# partial 사용법: 인수 고정 -> 주로 특정 인수 고정 후 콜백 함수에 사용
+# 하나 이상의 인수가 이미 할당된(채워진) 함수의 새 버전 반환
+# 함수의 새 객체 타입은 이전 함수의 자체를 기술하고 있다.
+
+from operator import mul
+from functools import partial
+
+print('EX7-1 -', mul(10,100))
+
+# 인수 고정
+five = partial(mul, 5)
+
+# 고정 추가
+six = partial(five, 6)
+
+print('EX7-2', five(100))
+# print('EX7-3 -', six())
+print('EX7-4 -', [five(i) for i in range(1,11)])
+print('EX7-5 -', list(map(five, range(1,11))))

@@ -113,3 +113,5 @@ print('EX3-9 -', bool(v3))
 
 print()
 print()
+
+print(v1+v2)
