@@ -106,9 +106,119 @@ print('EX3-1- 1', next(wt))
 print('EX3-1- 1', next(wt))
 print('EX3-1- 1', next(wt))
 print('EX3-1- 1', next(wt))
-print('EX3-9- ', next(wt))
+# print('EX3-9- ', next(wt))
 
 print()
 print()
 
 # Generator 예제 1
+
+def generator_ex1():
+    print('start')
+    yield 'AAA'
+    print('continue')
+    yield 'BBB'
+    print('end')
+
+temp = iter(generator_ex1())
+
+# print('EX4-1 -', next(temp))
+# print('EX4-1 -', next(temp))
+# print('EX4-1 -', next(temp))
+
+for v in generator_ex1():
+    pass
+    # print('EX4-3 -', v)
+print()
+
+# Generator 예제 2
+
+temp2 = [x*3 for x in generator_ex1()]
+temp3 = (x*3 for x in generator_ex1())
+
+print('EX5-1 -', temp2)
+print('EX5-1 -', temp3)
+
+for i in temp2:
+    print('EX5-3 -', i)
+
+print()
+print()
+
+for i in temp3:
+    print('EX5-4 -', i)
+
+print()
+print()
+
+# Generator 예제3(자주 사용하는 함수)
+
+import itertools
+
+gen1 = itertools.count(1,2.5)
+
+print('EX6-1 -', next(gen1))
+print('EX6-1 -', next(gen1))
+print('EX6-1 -', next(gen1))
+print('EX6-1 -', next(gen1))
+# ... 무한
+
+# 조건
+
+print()
+
+gen2 = itertools.takewhile(lambda n : n < 1000, itertools.count(1,2.5))
+
+# for v in gen2:
+#     print('EX6-5 -', v)
+
+
+print()
+
+# 필터 반대
+gen3 = itertools.filterfalse(lambda n : n< 3, [1,2,3,4,5])
+
+for v in gen3:
+    print('E6-6 -',v)
+
+print()
+
+# 누적 합계
+
+gen4 = itertools.accumulate([x for x in range(1,101)])
+
+for v in gen4:
+    print('EX6-7 -', v)
+
+print()
+
+# 연결1
+
+gen5 = itertools.chain('ABCDE', range(1,11,2))
+
+print('EX6-8 -', list(gen5))
+
+# 연결2
+
+gen6 = itertools.chain(enumerate('ABCDE'))
+
+print('Ex6- 9 -', list(gen6))
+
+# 개별
+gen7 = itertools.product('ABCDE')
+
+print('EX6-10-', list(gen7))
+
+# 연산
+gen8 = itertools.product('ABCDE', repeat=2)
+
+print('EX6-10-', list(gen8))
+
+# 그룹화
+gen9 = itertools.groupby('AAABBCCCCDDEEE')
+
+# print('EX6-10-', list(gen9))
+
+for chr, group in gen9:
+    print('EX6-12 -', chr, ' : ', list(group))
+
